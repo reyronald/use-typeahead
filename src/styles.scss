@@ -1,5 +1,5 @@
 :root {
-  --color-background: white;
+  --color-background: #edf2f7;
   --color-text: black;
   --color-border: rgba(34,36,38,.15);
   --color-selected-background:  rgba(69, 175, 195, 0.15);
@@ -119,8 +119,11 @@ input {
 
 li.search-listbox-suggestion {
   padding: 1rem;
+  cursor: pointer;
 }
 
-li.search-listbox-suggestion[aria-selected="true"] {
+li.search-listbox-suggestion[aria-selected="true"],
+li.search-listbox-suggestion:hover
+{
   background: var(--color-selected-background);
 }

@@ -11,6 +11,11 @@ export default function App() {
     null,
   )
 
+  const onPick = (suggestion: User) => {
+    setPickedSuggestion(suggestion)
+    clear()
+  }
+
   const {
     inputRef,
     isOpen: isShowingSuggestions,
@@ -26,8 +31,7 @@ export default function App() {
       return searchUsers(users, query).slice(0, maxResults)
     }, []),
     onEnter: (suggestion, _selectedOption) => {
-      setPickedSuggestion(suggestion)
-      clear()
+      onPick(suggestion)
     },
   })
 
@@ -96,6 +100,7 @@ export default function App() {
                   id={`search-listbox-option-${index}`}
                   role="option"
                   className="search-listbox-suggestion"
+                  onClick={() => onPick(suggestion)}
                 >
                   {suggestion.name} ({suggestion.username})
                 </li>
