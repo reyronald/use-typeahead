@@ -58,7 +58,7 @@ input {
 }
 
 .search-listbox-container {
-  height: 300px;
+  max-height: 300px;
   display: flex;
 }
 

@@ -1,61 +1,33 @@
 import * as React from 'react'
 
+import { User, users } from './users'
+import { searchUsers } from './utils'
 import { useTypeahead } from './useTypeahead'
 
 import './styles.scss'
 
 export default function App() {
+  const [pickedSuggestion, setPickedSuggestion] = React.useState<null | User>(
+    null,
+  )
+
   const {
     inputRef,
     isOpen: isShowingSuggestions,
-    setIsOpen: setIsShowingSuggestions,
     suggestions,
     value,
-    setValue,
     handleChange,
     handleKeyUp,
     selected,
-    setSelected,
     clear,
-  } = useTypeahead<number>({
+  } = useTypeahead<User>({
     search: React.useCallback(async (query: string) => {
-      return [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        18,
-        19,
-        20,
-        21,
-        22,
-        23,
-        24,
-        25,
-        26,
-        27,
-        28,
-        29,
-        30,
-      ]
+      const maxResults = 25
+      return searchUsers(users, query).slice(0, maxResults)
     }, []),
     onEnter: (suggestion, _selectedOption) => {
-      if (inputRef.current) {
-        setValue(suggestion.toString())
-        setSelected(null)
-      }
+      setPickedSuggestion(suggestion)
+      clear()
     },
   })
 
@@ -117,20 +89,35 @@ export default function App() {
             <p>No results</p>
           ) : (
             <ul id="search-listbox" className="search-listbox">
-              {suggestions?.map((s, index) => (
+              {suggestions?.map((suggestion, index) => (
                 <li
-                  key={s}
+                  key={suggestion.id}
                   aria-selected={index === selected}
                   id={`search-listbox-option-${index}`}
                   role="option"
                   className="search-listbox-suggestion"
                 >
-                  {s}
+                  {suggestion.name} ({suggestion.username})
                 </li>
               ))}
             </ul>
           )}
         </div>
+      )}
+
+      {pickedSuggestion && (
+        <>
+          <p>
+            {pickedSuggestion.name} (@{pickedSuggestion.username})<br />
+          </p>
+
+          <address>
+            {pickedSuggestion.phone}
+            <br />
+            {pickedSuggestion.email.toLowerCase()}
+            <br />
+          </address>
+        </>
       )}
     </main>
   )
