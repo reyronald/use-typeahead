@@ -63,7 +63,7 @@ export default function App() {
 
   return (
     <main>
-      <p>Keyboard suppoort:</p>
+      <p>Keyboard support:</p>
 
       <ul>
         <li>
