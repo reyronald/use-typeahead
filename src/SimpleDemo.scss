@@ -1,0 +1,92 @@
+:root {
+  --color-border: rgba(34,36,38,.15);
+  --color-selected-background:  rgba(69, 175, 195, 0.15);
+  --color-scrollbar-background: #f1f2f7;
+  --color-scrollbar-thumb: #0d596d;
+}
+
+
+input {
+  width: 100%;
+  font-size: 1rem;
+  word-wrap: break-word;
+  line-height: 1em;
+  outline: 0;
+  white-space: normal;
+  min-height: 2em;
+  background: #fff;
+  display: inline-block;
+  padding: 1em 2em 1em 1em;
+  color: rgba(0,0,0,.87);
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+  border-radius: .30rem;
+  -webkit-transition: box-shadow .1s ease,width .1s ease;
+  transition: box-shadow 1s ease, width .1s ease;
+
+  &:focus {
+    border-color: #96c8da;
+    box-shadow: 0 2px 3px 0 var(--color-border);
+  }
+
+  &[aria-expanded="true"] {
+    border-bottom-left-radius: 0px; 
+    border-bottom-right-radius: 0px; 
+  }
+}
+
+.search-listbox-container {
+  max-height: 300px;
+  display: flex;
+}
+
+.search-listbox {  
+  min-width: 100%;
+  background: white;
+  color: black;
+  overflow-y: auto;  
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--color-border);
+
+  
+  // Top and bottom shadows when scrollable
+  background: linear-gradient(white 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
+    radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)),
+    radial-gradient(
+        50% 100%,
+        farthest-side,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0)
+      )
+      0 100%;
+  background: linear-gradient(white 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
+    radial-gradient(
+      farthest-side at 50% 0,
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0)
+    ),
+    radial-gradient(
+        farthest-side at 50% 100%,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0)
+      )
+      0 100%;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+  background-attachment: local, local, scroll, scroll;
+}
+
+li.search-listbox-suggestion {
+  padding: 1rem;
+  cursor: pointer;
+}
+
+li.search-listbox-suggestion[aria-selected="true"],
+li.search-listbox-suggestion:hover
+{
+  background: var(--color-selected-background);
+}

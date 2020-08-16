@@ -1,0 +1,79 @@
+
+body {
+  background-image: 
+    linear-gradient(var(--color-foreground) 1px, transparent 1px),
+    linear-gradient(to right, var(--color-foreground) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.overlay {
+  background: cadetblue;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+
+  --duration: 0.15s;
+  transform: scale(0);
+  transition: opacity var(--duration) ease, transform 0s ease var(--duration);
+
+  &__visible {
+    transition: opacity var(--duration) ease, transform 0s ease;
+    transform: scale(1);
+    opacity: 0.4;
+  }
+}
+
+nav {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  
+  .top-search-input-container {
+    background-color: var(--color-foreground);
+    width: 100%;
+    z-index: 2;
+    padding: 1rem;
+    
+    input {
+      max-width: 400px;
+    }
+  }
+  
+  .top-search-drawer {
+    background-color: var(--color-foreground);
+    width: 100%;
+    height: 300px;
+    padding: 1rem;
+    position: absolute;
+    top: 100%;
+    z-index: 1;    
+    transform: translateY(-100%);
+    transition: transform 0.3s cubic-bezier(0, 1.2, 0.175, 0.9);
+    display: flex;
+
+    &[aria-expanded="true"] {    
+      transform: translateY(0);
+    }
+
+    .top-search-listbox {
+      // --color-scrollbar-background: red;
+
+      width: 400px;
+      overflow-y: auto;  
+      margin: 0;
+      padding: 0;
+
+      .top-search-listbox-suggestion {
+        padding: 0.5rem;
+        cursor: pointer;
+
+        &[aria-selected="true"], &:hover {
+          background-color: cadetblue;
+        }
+      }
+    }
+  }
+}
