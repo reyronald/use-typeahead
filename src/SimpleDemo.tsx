@@ -5,7 +5,6 @@ import { useFocusWithKeyboard, searchUsers } from './utils'
 import { useTypeahead } from './useTypeahead'
 
 import './SimpleDemo.scss'
-import { ConnectableObservable } from 'rxjs'
 
 export function SimpleDemo() {
   const [pickedSuggestion, setPickedSuggestion] = React.useState<null | User>(
@@ -45,7 +44,6 @@ export function SimpleDemo() {
       }
     }
     document.body.addEventListener('click', exit)
-
     return () => {
       document.body.removeEventListener('click', exit)
     }
