@@ -9,6 +9,8 @@ export default function App() {
   const [hash, setHash] = React.useState('')
 
   React.useEffect(() => {
+    document.title = 'reyronald - useTypeahead'
+
     function listener() {
       setHash(window.location.hash)
     }

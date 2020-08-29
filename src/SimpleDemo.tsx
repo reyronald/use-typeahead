@@ -35,19 +35,16 @@ export function SimpleDemo() {
     },
   })
 
+  useScrollToInputWhenPanelOpens({
+    isShowingSuggestions,
+    suggestions,
+    inputRef,
+  })
+
   useFocusWithKeyboard(inputRef)
 
-  React.useEffect(() => {
-    function exit(e: MouseEvent) {
-      if (!(e.target instanceof HTMLInputElement)) {
-        clear()
-      }
-    }
-    document.body.addEventListener('click', exit)
-    return () => {
-      document.body.removeEventListener('click', exit)
-    }
-  }, [clear])
+  const inputContainerRef = React.useRef<HTMLDivElement>(null)
+  useOnClickOutside(inputContainerRef, clear)
 
   return (
     <main>
@@ -84,47 +81,49 @@ export function SimpleDemo() {
         </li>
       </ul>
 
-      <input
-        type="text"
-        autoComplete="off"
-        placeholder="Search"
-        aria-label="Search"
-        aria-controls="search-listbox"
-        aria-activedescendant={
-          selected == null ? undefined : `search-listbox-option-${selected}`
-        }
-        aria-expanded={isShowingSuggestions}
-        aria-describedby="search-description"
-        aria-keyshortcuts="Control+Shift+f Meta+Shift+f"
-        role="listbox"
-        onChange={handleChange}
-        value={value}
-        ref={inputRef}
-        onKeyUp={handleKeyUp}
-      />
+      <div ref={inputContainerRef}>
+        <input
+          type="text"
+          autoComplete="off"
+          placeholder="Search"
+          aria-label="Search"
+          aria-controls="search-listbox"
+          aria-activedescendant={
+            selected == null ? undefined : `search-listbox-option-${selected}`
+          }
+          aria-expanded={isShowingSuggestions}
+          aria-describedby="search-description"
+          aria-keyshortcuts="Control+Shift+f Meta+Shift+f"
+          role="listbox"
+          value={value}
+          ref={inputRef}
+          onChange={handleChange}
+          onKeyUp={handleKeyUp}
+        />
 
-      {isShowingSuggestions && (
-        <div className="search-listbox-container">
-          {suggestions?.length === 0 ? (
-            <p>No results</p>
-          ) : (
-            <ul id="search-listbox" className="search-listbox scrollbar">
-              {suggestions?.map((suggestion, index) => (
-                <li
-                  key={suggestion.id}
-                  aria-selected={index === selected}
-                  id={`search-listbox-option-${index}`}
-                  role="option"
-                  className="search-listbox-suggestion"
-                  onClick={() => onPick(suggestion)}
-                >
-                  {suggestion.name} ({suggestion.username})
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
+        {isShowingSuggestions && (
+          <div className="search-listbox-container">
+            {suggestions?.length === 0 ? (
+              <p>No results</p>
+            ) : (
+              <ul id="search-listbox" className="search-listbox scrollbar">
+                {suggestions?.map((suggestion, index) => (
+                  <li
+                    key={suggestion.id}
+                    aria-selected={index === selected}
+                    id={`search-listbox-option-${index}`}
+                    role="option"
+                    className="search-listbox-suggestion"
+                    onClick={() => onPick(suggestion)}
+                  >
+                    {suggestion.name} ({suggestion.username})
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </div>
 
       {pickedSuggestion && (
         <>
@@ -142,4 +141,51 @@ export function SimpleDemo() {
       )}
     </main>
   )
+}
+
+function useScrollToInputWhenPanelOpens({
+  isShowingSuggestions,
+  suggestions,
+  inputRef,
+}: {
+  isShowingSuggestions: boolean
+  suggestions: User[] | null
+  inputRef: React.RefObject<HTMLInputElement>
+}) {
+  React.useEffect(() => {
+    if (isShowingSuggestions && (suggestions?.length ?? 0) > 0) {
+      requestAnimationFrame(() => {
+        if (inputRef.current) {
+          const { top } = inputRef.current.getBoundingClientRect()
+          window.scrollBy({
+            top,
+            behavior: 'smooth',
+          })
+        }
+      })
+    }
+  }, [isShowingSuggestions, suggestions, inputRef])
+}
+
+function useOnClickOutside(
+  ref: React.RefObject<Element>,
+  handler: (e: Event) => void,
+) {
+  React.useEffect(() => {
+    const listener = (event: Event) => {
+      if (!ref.current || ref.current.contains(event.target as Node)) {
+        return
+      }
+
+      handler(event)
+    }
+
+    document.addEventListener('mousedown', listener)
+    document.addEventListener('touchstart', listener)
+
+    return () => {
+      document.removeEventListener('mousedown', listener)
+      document.removeEventListener('touchstart', listener)
+    }
+  }, [ref, handler])
 }
