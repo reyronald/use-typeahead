@@ -1,8 +1,8 @@
 
 body {
   background-image: 
-    linear-gradient(var(--color-foreground) 1px, transparent 1px),
-    linear-gradient(to right, var(--color-foreground) 1px, transparent 1px);
+    linear-gradient(var(--color-foreground-2) 1px, transparent 1px),
+    linear-gradient(to right, var(--color-foreground-2) 1px, transparent 1px);
   background-size: 50px 50px;
 }
 
@@ -32,7 +32,7 @@ nav {
   align-items: center;
   
   .top-search-input-container {
-    background-color: var(--color-foreground);
+    background-color: var(--color-foreground-1);
     width: 100%;
     z-index: 2;
     padding: 1rem;
@@ -43,7 +43,7 @@ nav {
   }
   
   .top-search-drawer {
-    background-color: var(--color-foreground);
+    background-color: var(--color-foreground-1);
     width: 100%;
     height: 300px;
     padding: 1rem;
@@ -59,8 +59,6 @@ nav {
     }
 
     .top-search-listbox {
-      // --color-scrollbar-background: red;
-
       width: 400px;
       overflow-y: auto;  
       margin: 0;
@@ -71,7 +69,7 @@ nav {
         cursor: pointer;
 
         &[aria-selected="true"], &:hover {
-          background-color: cadetblue;
+          background-color: var(--color-selected-bg);
         }
       }
     }

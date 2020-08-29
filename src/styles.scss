@@ -1,14 +1,29 @@
 :root {
-  --color-background: #edf2f7;
-  --color-foreground: #dae1ec;
+  --color-background: #f1f2f7;
+  --color-foreground-1: white;
+  --color-foreground-2: #eee;
   --color-text: black;
+  --color-selected-bg: rgba(150, 159, 164, 0.15);
+  --color-scrollbar-background: #f1f2f7;
+  --color-scrollbar-thumb: #0d596d;
+  --color-input-border: #ccc;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {    
-    --color-background: #151515;
-    --color-foreground: #36393f;
-    --color-text: white;
+    --color-background: #090e11;
+    --color-foreground-1: #1e2428;
+    --color-foreground-2: #33383b;
+    --color-text: rgba(241, 241, 242, 0.95);
+    --color-input-border: var(--color-foreground-2);
+  }
+
+  a {
+    color: #3ca4af;
+  }
+
+  a:visited {
+    color: #81c4f8;
   }
 }
 
@@ -25,9 +40,14 @@ body {
 }
 
 main {
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 1rem;
+}
+
+input {
+  background-color: var(--color-foreground-2);
+  color: var(--color-text);
 }
 
   // Scrollbar styles

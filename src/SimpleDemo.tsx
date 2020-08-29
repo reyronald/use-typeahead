@@ -5,6 +5,7 @@ import { useFocusWithKeyboard, searchUsers } from './utils'
 import { useTypeahead } from './useTypeahead'
 
 import './SimpleDemo.scss'
+import { ConnectableObservable } from 'rxjs'
 
 export function SimpleDemo() {
   const [pickedSuggestion, setPickedSuggestion] = React.useState<null | User>(
@@ -37,8 +38,25 @@ export function SimpleDemo() {
 
   useFocusWithKeyboard(inputRef)
 
+  React.useEffect(() => {
+    function exit(e: MouseEvent) {
+      if (!(e.target instanceof HTMLInputElement)) {
+        clear()
+      }
+    }
+    document.body.addEventListener('click', exit)
+
+    return () => {
+      document.body.removeEventListener('click', exit)
+    }
+  }, [clear])
+
   return (
     <main>
+      <p>
+        <a href="#home">Home {'<<'}</a>
+      </p>
+
       <p>Keyboard support:</p>
 
       <ul>

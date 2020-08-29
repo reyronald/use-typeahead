@@ -137,7 +137,12 @@ export function TopNav() {
         </div>
       </nav>
 
-      <main>{pickedSuggestion && <UserCard user={pickedSuggestion} />}</main>
+      <main>
+        <p>
+          <a href="#home">Home {'<<'}</a>
+        </p>
+        {pickedSuggestion && <UserCard user={pickedSuggestion} />}
+      </main>
     </>
   )
 }
