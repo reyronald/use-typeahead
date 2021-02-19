@@ -48,7 +48,15 @@ export function TopNav() {
         onClick={() => setExpanded(false)}
       />
       <nav>
-        <div className="top-search-input-container">
+        <div
+          role="combobox"
+          aria-label="Type here to search"
+          aria-expanded={isShowingSuggestions}
+          aria-owns="top-search-listbox"
+          aria-controls="top-search-listbox"
+          aria-haspopup="listbox"
+          className="top-search-input-container"
+        >
           <input
             ref={inputRef}
             id="top-search"
@@ -65,8 +73,6 @@ export function TopNav() {
                 : `top-search-listbox-option-${selected}`
             }
             aria-keyshortcuts="Control+Shift+f Meta+Shift+f"
-            aria-expanded={isShowingSuggestions}
-            role="listbox"
             onChange={handleChange}
             value={value}
             onKeyUp={handleKeyUp}
@@ -116,6 +122,8 @@ export function TopNav() {
               ) : (
                 <ul
                   id="top-search-listbox"
+                  role="listbox"
+                  aria-label="Search"
                   className="top-search-listbox scrollbar"
                 >
                   {suggestions?.map((suggestion, index) => (
@@ -141,6 +149,9 @@ export function TopNav() {
         <p>
           <a href="#home">Home {'<<'}</a>
         </p>
+
+        <h1>Top Nav Demo</h1>
+
         {pickedSuggestion && <UserCard user={pickedSuggestion} />}
       </main>
     </>

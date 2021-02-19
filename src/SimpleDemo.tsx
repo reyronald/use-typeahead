@@ -52,61 +52,76 @@ export function SimpleDemo() {
         <a href="#home">Home {'<<'}</a>
       </p>
 
-      <p>Keyboard support:</p>
+      <h1>Simple Demo</h1>
 
-      <ul>
-        <li>
-          Use <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> <kbd>+</kbd> <kbd>Shift</kbd>{' '}
-          <kbd>+</kbd> <kbd>F</kbd> to focus the input.
-        </li>
+      <div id="search-description">
+        <p>Keyboard support:</p>
 
-        <li>
-          Use <kbd>Esc</kbd> to clear the input.
-        </li>
+        <ul>
+          <li>
+            Use <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> <kbd>+</kbd> <kbd>Shift</kbd>{' '}
+            <kbd>+</kbd> <kbd>F</kbd> to focus the input.
+          </li>
 
-        <li>Use the arrow keys to highlight suggestions.</li>
+          <li>
+            Use <kbd>Esc</kbd> to clear the input.
+          </li>
 
-        <li>
-          Use <kbd>Home</kbd> and <kbd>End</kbd> to highlight the first and last
-          result respectively.
-        </li>
+          <li>Use the arrow keys to highlight suggestions.</li>
 
-        <li>
-          Use <kbd>PageUp</kbd> and <kbd>PageDown</kbd> to scroll through the
-          suggestions container.
-        </li>
+          <li>
+            Use <kbd>Home</kbd> and <kbd>End</kbd> to highlight the first and
+            last result respectively.
+          </li>
 
-        <li>
-          Use <kbd>Enter</kbd> to select a suggestion
-        </li>
-      </ul>
+          <li>
+            Use <kbd>PageUp</kbd> and <kbd>PageDown</kbd> to scroll through the
+            suggestions container.
+          </li>
+
+          <li>
+            Use <kbd>Enter</kbd> to select a suggestion
+          </li>
+        </ul>
+      </div>
 
       <div ref={inputContainerRef}>
-        <input
-          type="text"
-          autoComplete="off"
-          placeholder="Search"
+        <div
+          role="combobox"
           aria-label="Search"
-          aria-controls="search-listbox"
-          aria-activedescendant={
-            selected == null ? undefined : `search-listbox-option-${selected}`
-          }
           aria-expanded={isShowingSuggestions}
-          aria-describedby="search-description"
-          aria-keyshortcuts="Control+Shift+f Meta+Shift+f"
-          role="listbox"
-          value={value}
-          ref={inputRef}
-          onChange={handleChange}
-          onKeyUp={handleKeyUp}
-        />
+          aria-owns="search-listbox"
+          aria-controls="search-listbox"
+          aria-haspopup="listbox"
+        >
+          <input
+            type="text"
+            autoComplete="off"
+            placeholder="Search"
+            aria-label="Search"
+            aria-controls="search-listbox"
+            aria-activedescendant={
+              selected == null ? undefined : `search-listbox-option-${selected}`
+            }
+            aria-describedby="search-description"
+            aria-keyshortcuts="Control+Shift+f Meta+Shift+f"
+            value={value}
+            ref={inputRef}
+            onChange={handleChange}
+            onKeyUp={handleKeyUp}
+          />
+        </div>
 
         {isShowingSuggestions && (
           <div className="search-listbox-container">
             {suggestions?.length === 0 ? (
               <p>No results</p>
             ) : (
-              <ul id="search-listbox" className="search-listbox scrollbar">
+              <ul
+                id="search-listbox"
+                role="listbox"
+                className="search-listbox scrollbar"
+              >
                 {suggestions?.map((suggestion, index) => (
                   <li
                     key={suggestion.id}
